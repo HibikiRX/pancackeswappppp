@@ -219,48 +219,98 @@ footer{background:var(--card-2);border-top:1px solid var(--border);padding:48px 
 .wmf a{color:var(--primary)}
 .woi svg{width:22px;height:22px}
 
+/* TABLET */
+@media(min-width:641px)and(max-width:1024px){
+  .hdr{padding:0 16px}
+  .hero-in{padding:48px 16px 40px;gap:32px}
+  .hero-copy{min-width:200px}
+  .swp{width:400px}
+  .sec{padding:28px 16px}
+  .fi{gap:24px}
+}
+
 /* MOBILE */
 @media(max-width:640px){
-  .hdr{padding:0 10px;height:56px}
-  .logo{font-size:16px}
-  .logo-img{width:28px;height:28px}
+  .hdr{padding:0 10px;height:56px;gap:4px}
+  .logo{font-size:15px;gap:6px}
+  .logo-img{width:26px;height:26px}
   .icn{width:32px;height:32px}
   .icn svg{width:17px;height:17px}
-  .hero-in{flex-direction:column;align-items:center;padding:40px 14px 32px;gap:28px}
+  .hero-in{flex-direction:column;align-items:center;padding:32px 12px 24px;gap:20px}
   .hero-copy{min-width:0;padding-top:0;text-align:center}
-  .hero-copy h1{font-size:clamp(28px,10vw,44px)}
-  .hero-tag{font-size:16px;margin:16px 0 20px}
-  .chains{justify-content:center}
-  .chains .c{width:36px;height:36px}
-  .chains .c img{width:22px;height:22px}
+  .hero-copy h1{font-size:clamp(24px,9vw,36px)}
+  .hero-tag{font-size:14px;margin:12px 0 16px}
+  .chains{justify-content:center;gap:8px}
+  .chains .c{width:32px;height:32px}
+  .chains .c img{width:20px;height:20px}
   .swp{width:100%;max-width:100%}
-  .scard{padding:6px}
-  .sfld{padding:10px 14px}
-  .sfld .sr{gap:8px;flex-wrap:wrap}
-  .tbtn .tn{font-size:16px}
-  .ain{font-size:20px;width:110px}
-  .sec{padding:24px 14px}
-  .sec-h{margin-bottom:16px}
-  .sec-t{font-size:22px}
-  .fc{padding:16px}
-  .fch{gap:8px}
-  .fcn{font-size:14px}
-  .fcs{gap:8px}
-  .fcs .fv{font-size:13px}
-  .pc{padding:16px}
-  .prw{padding:16px}
-  .prh{flex-wrap:wrap;gap:8px}
-  .sts{padding:24px 14px}
-  .stc{padding:20px 14px}
-  .stc .sv{font-size:28px}
-  footer{padding:32px 14px 20px}
-  .fi{gap:20px}
-  .wm{padding:20px;width:96%}
-  .wo{padding:12px 14px;gap:10px}
-  .wo .won{font-size:14px}
+  .scard{padding:6px;border-radius:20px}
+  .stabs{gap:3px}
+  .stab{font-size:13px;padding:6px 0}
+  .sfld{padding:10px 12px;border-radius:16px}
+  .sfld .sr{gap:6px}
+  .sfld .sl{font-size:11px;margin-bottom:4px}
+  .tbtn{gap:6px}
+  .tbtn .ti{width:24px;height:24px}
+  .tbtn .tn{font-size:14px}
+  .tbtn .tn .ar{font-size:7px}
+  .ain{font-size:18px;width:100%;min-width:0;max-width:120px}
+  .ausd{font-size:11px}
+  .swch button{width:28px;height:28px}
+  .swch button svg{width:13px;height:13px}
+  .sdtl{padding:8px 4px;font-size:11px}
+  .sec{padding:20px 12px}
+  .sec-h{margin-bottom:14px}
+  .sec-t{font-size:20px}
+  .sec-l{font-size:12px}
+  .fc{padding:14px;border-radius:20px}
+  .fch{gap:8px;margin-bottom:10px}
+  .fcn{font-size:13px}
+  .fct{font-size:10px;padding:2px 10px}
+  .fcs{gap:6px;margin-bottom:10px}
+  .fcs .fv{font-size:12px}
+  .fcs .fl{font-size:10px}
+  .fbar{margin-bottom:10px}
+  .fcb{font-size:11px}
+  .pc{padding:14px;border-radius:20px}
+  .pcn{font-size:15px}
+  .pcd{font-size:11px}
+  .pcs .pv{font-size:15px}
+  .pcs .pl{font-size:10px}
+  .prw{padding:16px;border-radius:20px}
+  .prh{flex-wrap:wrap;gap:6px}
+  .prh .pht{font-size:17px}
+  .prh .phr{font-size:11px}
+  .prc{padding:16px;border-radius:16px}
+  .prc .pel{font-size:30px}
+  .prc .plb{font-size:14px}
+  .prc .pod{font-size:12px}
+  .prc .ppo{font-size:17px}
+  .sts{padding:20px 12px}
+  .stsh{font-size:24px;margin-bottom:24px}
+  .stc{padding:16px 12px}
+  .stc .sv{font-size:24px}
+  .stc .sk{font-size:13px}
+  footer{padding:28px 12px 16px}
+  .fi{gap:16px}
+  .fbl{font-size:16px;margin-bottom:8px}
+  .fb{font-size:12px;margin-bottom:12px}
+  .fc .fct{font-size:13px;margin-bottom:10px}
+  .fc a{font-size:12px}
+  .wm{padding:16px;width:94%;border-radius:20px}
+  .wmh{gap:8px;margin-bottom:4px}
+  .wmh .whi{width:32px;height:32px}
+  .wmh .wht{font-size:16px}
+  .wms{font-size:12px;margin-bottom:14px}
+  .wo{padding:10px 12px;gap:8px;margin-bottom:6px;border-radius:14px}
+  .wo .woi{width:32px;height:32px;border-radius:8px}
+  .wo .won{font-size:13px}
+  .wo .wod{font-size:10px}
   .wmc{padding:2px 6px}
-  .sbtn{height:48px;font-size:15px}
-  .tst{top:10px;right:10px;left:10px;max-width:none;font-size:13px}
+  .sbtn{height:46px;font-size:14px;border-radius:16px}
+  .tst{top:8px;right:8px;left:8px;max-width:none;font-size:12px;border-radius:12px;padding:12px 14px}
+  .hdr-r{gap:4px}
+  .cbtn{font-size:13px!important;height:34px!important;padding:0 12px!important;border-radius:14px!important}
 }
 </style>
 </head>
