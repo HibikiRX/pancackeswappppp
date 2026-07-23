@@ -656,14 +656,18 @@ function showPhantomMobileModal() {
   var o = document.createElement('div');
   o.className = 'wmo';
   var rawUrl = location.href;
-  var browseUrl = 'https://phantom.app/ul/browse/' + encodeURIComponent(rawUrl);
-  o.innerHTML = '<div class="wm" style="max-width:340px;text-align:center;padding:24px 20px"><div style="width:72px;height:72px;margin:0 auto 16px;background:#7b6fe0;border-radius:20px;display:grid;place-items:center"><svg width="36" height="36" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#fff"/></svg></div><div style="font-size:16px;color:var(--text);margin-bottom:4px;font-weight:700">Open in Phantom</div><div style="font-size:12px;color:var(--text-sub);margin-bottom:20px;line-height:1.5">Tap the button below to open this page in Phantom\'s built-in browser. Once opened, tap <strong>Connect Wallet</strong> and select Phantom.</div><a href="'+browseUrl+'" style="display:block;width:100%;height:48px;line-height:48px;background:#7b6fe0;color:#fff;border:none;border-radius:14px;font-weight:600;font-size:15px;text-decoration:none;margin-bottom:8px">Open in Phantom Browser</a><button class="cp-url-btn" style="width:100%;height:40px;background:transparent;color:var(--text-sub);border:1px solid var(--border);border-radius:12px;font-weight:500;font-size:12px">Copy URL to open manually</button><div class="wmf" style="margin-top:14px"><a href="#" onclick="this.closest(\'.wmo\').remove()">Cancel</a></div></div>';
+  o.innerHTML = '<div class="wm" style="max-width:340px;text-align:center;padding:24px 20px"><div style="width:72px;height:72px;margin:0 auto 16px;background:#7b6fe0;border-radius:20px;display:grid;place-items:center"><svg width="36" height="36" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#fff"/></svg></div><div style="font-size:16px;color:var(--text);margin-bottom:4px;font-weight:700">Open in Phantom Browser</div><div style="font-size:12px;color:var(--text-sub);margin-bottom:16px;line-height:1.6;text-align:left"><div style="margin-bottom:6px;display:flex;gap:8px"><span style="background:#7b6fe0;color:#fff;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0">1</span><span>Copy the URL below</span></div><div style="margin-bottom:6px;display:flex;gap:8px"><span style="background:#7b6fe0;color:#fff;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0">2</span><span>Open the <strong>Phantom</strong> app on your phone</span></div><div style="margin-bottom:6px;display:flex;gap:8px"><span style="background:#7b6fe0;color:#fff;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0">3</span><span>Tap the <strong>browser icon</strong> in Phantom, paste and go</span></div><div style="display:flex;gap:8px"><span style="background:#7b6fe0;color:#fff;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0">4</span><span>Tap <strong>Connect Wallet</strong> and select Phantom</span></div></div><button class="cp-url-btn" style="width:100%;height:48px;background:#7b6fe0;color:#fff;border:none;border-radius:14px;font-weight:600;font-size:15px;margin-bottom:8px">Copy URL</button><button class="ph-retry-btn" style="width:100%;height:40px;background:transparent;color:var(--text-sub);border:1px solid var(--border);border-radius:12px;font-weight:500;font-size:12px">I\'m in Phantom browser — Check again</button><div class="wmf" style="margin-top:14px"><a href="#" onclick="this.closest(\'.wmo\').remove()">Cancel</a></div></div>';
   o.querySelector('.cp-url-btn').onclick = function(){
     navigator.clipboard.writeText(rawUrl).then(function(){
-      toast('Copied','URL copied to clipboard');
+      toast('Copied','Paste in Phantom browser');
     }).catch(function(){
       prompt('Copy this URL:', rawUrl);
     });
+  };
+  o.querySelector('.ph-retry-btn').onclick = function(){
+    var chk = window.solana || (window.phantom && window.phantom.solana) || null;
+    if (chk) { o.remove(); doPick('ph'); }
+    else { toast('Not detected','Phantom wallet not found. Follow steps above.'); }
   };
   document.body.appendChild(o);
 }
