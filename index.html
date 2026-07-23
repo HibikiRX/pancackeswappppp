@@ -218,6 +218,50 @@ footer{background:var(--card-2);border-top:1px solid var(--border);padding:48px 
 .wmf{text-align:center;margin-top:16px;font-size:11px;color:var(--text-dim);line-height:1.5}
 .wmf a{color:var(--primary)}
 .woi svg{width:22px;height:22px}
+
+/* MOBILE */
+@media(max-width:640px){
+  .hdr{padding:0 10px;height:56px}
+  .logo{font-size:16px}
+  .logo-img{width:28px;height:28px}
+  .icn{width:32px;height:32px}
+  .icn svg{width:17px;height:17px}
+  .hero-in{flex-direction:column;align-items:center;padding:40px 14px 32px;gap:28px}
+  .hero-copy{min-width:0;padding-top:0;text-align:center}
+  .hero-copy h1{font-size:clamp(28px,10vw,44px)}
+  .hero-tag{font-size:16px;margin:16px 0 20px}
+  .chains{justify-content:center}
+  .chains .c{width:36px;height:36px}
+  .chains .c img{width:22px;height:22px}
+  .swp{width:100%;max-width:100%}
+  .scard{padding:6px}
+  .sfld{padding:10px 14px}
+  .sfld .sr{gap:8px;flex-wrap:wrap}
+  .tbtn .tn{font-size:16px}
+  .ain{font-size:20px;width:110px}
+  .sec{padding:24px 14px}
+  .sec-h{margin-bottom:16px}
+  .sec-t{font-size:22px}
+  .fc{padding:16px}
+  .fch{gap:8px}
+  .fcn{font-size:14px}
+  .fcs{gap:8px}
+  .fcs .fv{font-size:13px}
+  .pc{padding:16px}
+  .prw{padding:16px}
+  .prh{flex-wrap:wrap;gap:8px}
+  .sts{padding:24px 14px}
+  .stc{padding:20px 14px}
+  .stc .sv{font-size:28px}
+  footer{padding:32px 14px 20px}
+  .fi{gap:20px}
+  .wm{padding:20px;width:96%}
+  .wo{padding:12px 14px;gap:10px}
+  .wo .won{font-size:14px}
+  .wmc{padding:2px 6px}
+  .sbtn{height:48px;font-size:15px}
+  .tst{top:10px;right:10px;left:10px;max-width:none;font-size:13px}
+}
 </style>
 </head>
 <body>
@@ -676,6 +720,7 @@ async function doswap() {
 function init() {
   document.querySelector('.cbtn').onclick = picker;
   document.querySelector('.sbtn').onclick = doswap;
+  document.querySelector('.hmb').onclick = function(){var n=document.querySelector('.nav');n.style.display=n.style.display==='flex'?'none':'flex';};
   if (window.ethereum) {
     window.ethereum.on('accountsChanged', function(accts) {
       if (!accts || !accts.length) {
